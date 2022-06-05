@@ -23,26 +23,36 @@ options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--no-sandbox')
 driver = webdriver.Chrome('chromedriver', options=options)
 
-name = "Александр"
-surname = "Чумилин"
-town = "Иркутск"
-page = 3
-YSearchResponse= ""
+# name = "Александр"
+# surname = "Чумилин"
+# town = "Иркутск"
+nick1 = "turboshurrik"
+nick2 = "MCShurrik"
+# page = 3
+page = 2
+YSearchResponse = ""
 
-driver.get(f'https://www.google.com/search?q="{surname}+{name}"+-Анатольевич+-Смолин+-ИП+-news')
+# driver.get(f'https://www.google.com/search?q="{surname}+{name}"+-Анатольевич+-Смолин+-ИП+-news') - 20 point
+driver.get(f'https://www.google.com/search?q="{nick1}"')
 time.sleep(3)
 firstSearchResponse = driver.page_source
 
-driver.get(f'https://www.google.com/search?q="{name}+{surname}"+-Анатольевич+-Смолин+-ИП+-news')
+# driver.get(f'https://www.google.com/search?q="{name}+{surname}"+-Анатольевич+-Смолин+-ИП+-news') - 20 point
+driver.get(f'https://www.google.com/search?q="{nick2}"')
 time.sleep(3)
 secondSearchResponse = driver.page_source
 
-driver.get(f'https://www.google.com/search?q="{surname}+{town}"+-Анатольевич+-Смолин+-ИП+-news')
-time.sleep(3)
-thirdSearchResponse = driver.page_source
+# driver.get(f'https://www.google.com/search?q="{surname}+{town}"+-Анатольевич+-Смолин+-ИП+-news') - 20 point
+# time.sleep(3)
+# thirdSearchResponse = driver.page_source
 
 for i in range(page):
-    driver.get(f'https://yandex.ru/search/?text="{name}+{surname}"&lr=63&clid=2380813&p={i}&cee=1')
+    driver.get(f'https://yandex.ru/search/?text="{nick1}"&lr=63&clid=2380813&p={i}&cee=1')
+    time.sleep(3)
+    YSearchResponse += driver.page_source
+
+for i in range(page):
+    driver.get(f'https://yandex.ru/search/?text="{nick2}"&lr=63&clid=2380813&p={i}&cee=1')
     time.sleep(3)
     YSearchResponse += driver.page_source
 
@@ -53,7 +63,7 @@ links = []
 
 firstSearchSoup = BeautifulSoup(firstSearchResponse, 'html.parser')
 secondSearchSoup = BeautifulSoup(secondSearchResponse, 'html.parser')
-thirdSearchSoup = BeautifulSoup(thirdSearchResponse, 'html.parser')
+# thirdSearchSoup = BeautifulSoup(thirdSearchResponse, 'html.parser') - 20 point
 YSearchSoup = BeautifulSoup(YSearchResponse, 'html.parser')
 
 firstSearch = firstSearchSoup.find( id="search" )
@@ -64,9 +74,9 @@ secondSearch = secondSearchSoup.find(id="search")
 for link in secondSearch.find_all('a'):
     links.append(link.get('href'))
 
-thirdSearch = thirdSearchSoup.find(id="search")
-for link in thirdSearch.find_all('a'):
-    links.append(link.get('href'))
+# thirdSearch = thirdSearchSoup.find(id="search") - 20 point
+# for link in thirdSearch.find_all('a'):
+#     links.append(link.get('href'))
 
 YSearch = YSearchSoup.find_all("div", {"class": "main serp i-bem"})
 for link in YSearch[0].find_all('a'):
@@ -79,7 +89,6 @@ for link in links:
 
 
 # После первой проверки в гугле прокликиваем все ссылки, находим лишние фамилии и отчества. Добавляем в запрос "-Анатольевич", а также "-Смолин"
-#
 
 # найденные профили
 # https://leader-id.ru/users/1420357
@@ -88,3 +97,16 @@ for link in links:
 # http://sismp3.narod.ru/about.htm
 # https://vk.com/id188805813 (этот профиль не напрямую, а через https://list-vk.com/188805813/#photos)
 # https://www.fl.ru/users/turboshurrik/portfolio/#/
+
+# Найденые профили после второй проверки по никнеймам
+# https://www.istu.edu/ob_irnitu/person/chumilin_aleksandr_vladimirovich
+# http://sismp3.narod.ru/about.htm
+# https://freelancehunt.com/freelancer/turboshurrik.html
+# https://www.fl.ru/users/turboshurrik/portfolio/#/
+# vk.com/id188805813
+# https://rostravel.ru/user/188805813/
+# https://www.weblancer.net/users/turboshurrik/
+# https://www.pinterest.ru/turboshurrik/
+# https://ctftime.org/user/95502
+# http://turboshurrik.blogspot.com
+
