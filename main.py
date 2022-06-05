@@ -109,4 +109,5 @@ for link in links:
 # https://www.pinterest.ru/turboshurrik/
 # https://ctftime.org/user/95502
 # http://turboshurrik.blogspot.com
+# https://www.youtube.com/user/turboshurrik/videos
 
